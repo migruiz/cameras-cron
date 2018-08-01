@@ -14,7 +14,21 @@ RUN cd /App \
 
 COPY App /App
 
-#ENTRYPOINT ["node","/App/app.js"]
+
+# Add crontab file in the cron directory
+ADD cronjob /etc/cron.d/cronjob
+
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/cronjob
+
+# Apply cron job
+RUN crontab /etc/cron.d/cronjob
+
+
+
+
+
+ENTRYPOINT  ["cron", "-f"]
 
 
 
